@@ -11,7 +11,7 @@ app = FastAPI()
 df = pd.read_csv("products_with_embeddings.csv")
 
 # Ensure no NaN values in dataframe
-df.fillna("", inplace=True)
+df = df.astype(str).fillna("")
 
 # Load FAISS Index
 index = faiss.read_index("shopify_products.index")
