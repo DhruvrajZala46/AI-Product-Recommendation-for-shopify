@@ -3,6 +3,7 @@ import faiss
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
+import uvicorn
 
 app = FastAPI()
 
@@ -15,6 +16,7 @@ df.fillna("", inplace=True)
 # Load FAISS Index
 index = faiss.read_index("shopify_products.index")
 model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+
 
 @app.get("/recommend")
 def recommend(query: str):
@@ -38,3 +40,7 @@ def recommend(query: str):
     except Exception as e:
         return {"error": str(e)}
 
+
+# 🚀 Deployment entry point for Render
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
